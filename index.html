@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Browser</title>
+</head>
+<body>
+    <h1>File Browser</h1>
+    <ul id="fileList"></ul>
+    <pre id="fileContent"></pre>
+
+    <script>
+        const fileList = document.getElementById('fileList');
+        const fileContent = document.getElementById('fileContent');
+
+        // Fetch and display the list of files
+        fetch('/files')
+            .then(response => response.json())
+            .then(files => {
+                files.forEach(file => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = file;
+                    listItem.addEventListener('click', () => fetchFileContent(file));
+                    fileList.appendChild(listItem);
+                });
+            });
+
+        // Fetch and display the content of the selected file
+        function fetchFileContent(filename) {
+            fetch(`/file/${filename}`)
+                .then(response => response.text())
+                .then(content => {
+                    fileContent.textContent = content;
+                });
+        }
+    </script>
+</body>
+</html>
+

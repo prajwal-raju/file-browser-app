@@ -1,0 +1,942 @@
+Linux:
+-------------------------------------------------------------------------------------------------------
+Linux:
+
+Linux is an open-source operating system and provides various advantages over other os like windows etc
+Linux is used in almost every field, from cars, smartphones to supercomputers
+
+Advantages:
+
+Free
+Secure
+Lightweight
+Stability
+Performance
+
+Linux Architecture:
+
+Kernel:
+
+Shell:
+
+Types of Shells:
+
+Bourne Shell: sh
+C Shell: csh
+Korn Shell: ksh
+
+Bash Shell: Bourne Again Shell
+
+echo $SHELL --> To check the current shell
+chsh/lchsh <shell_name> --> To change the current shell
+uname -srm --> To find linux version
+lsb_release -a --> Linux versions
+LSB --> Linux Standard Base. 
+cat /proc/cpuinfo --> To find the number of cores the CPU has
+
+-----------------------------------------------------------------------------------------------------
+Packages:
+
+sudo apt install <name> / sudo yum install <name> --> Ubuntu / Redhat packag installation
+sudo apt remove <name> --> To uninstall
+feh --> yum or apt install --> To view images on Linux terminal (Both local and online images)
+sxiv --> Same as above
+imagemagic --> Same as above
+fbi --> With above, same as above
+make --> The make command compiles different program pieces and builds a final executable. The purpose of make is to automate file compilation. 
+		The command works with any programming language as long as the compiler can be executed with a shell command.
+gcc <filename> --> C, C++ program compiler in linux
+pip --> sudo apt install python3-pip --> Python package manager. To install and manage software packages/libraries written in Python
+wget --> For downloading images, files
+lynx --> Command line browser. Install using yum or apt 
+<browser_name> <filename> --> To open any html file
+chromium --> Installed using snap (A snap is an application containerised with all its dependencies. A snap can be installed using a single command on any device running Linux.)
+-----------------------------------------------------------------------------------------------------
+Shortcuts:
+
+Ctrl+Z --> This shortcut is useful if you need to get the terminal back while working on something. It sends the SIGTSTP signal to the foreground process. 
+For example, you are working in a text editor and need to break out to find some data. 
+You can use this shortcut to suspend and send the editor to the background, do your other task, and then run 
+fg --> to get back into your application
+
+alias c=clear --> .bashrc /bashprofile at home hidden folders (Eg: /home/ubuntu folder, the home folder of the user)
+source <filename> to make the above run
+
+bashrc vs bash_profile
+Bashrc is executed each time you open a new terminal window, while bash_profile is executed only once when you log in to your account. 
+This means that any changes you make to bashrc will take effect immediately, while changes to bash_profile will take effect only when you log out and log back in again.
+
+
+Ctrl+A --> Beginning of the line
+Ctrl+E --> End of the line
+Alt+F --> Move one word forward
+Alt+B --> Move one word backward
+Ctrl+L --> Clear the terminal
+Ctrl+D --> Logout of the terminal
+tree -a <name> --> Hierarchy
+/usr/bin/ --> Location where all the commands are stored 
+\b --> both ends adding this means boundary
+; --> Next line or seperate commands
+
+ `…` is actually called command substitution. The purpose of command substitution is to evaluate the command which is placed inside the backtick and 
+ provide its result as an output to the actual command. 
+Eg: A=`cat /etc/passwd | head -n1`
+ echo "$A"
+cat /etc/passwd |head -n1 should print first line of /etc/passwd file. 
+But since we use backticks, it doesn't print this on console. Instead it is stored in A variable. 
+
+=~ --> built-in operator is used for matching the regular expressions.
+if [] --> is old 
+if [[ ]] --> has more options, can use operators & regular expressions etc but not POSIX compatible  
+open [filename] --> open any file in linux lie html
+lynx --> Command line browser
+--------------------------------------------------------------------------
+To edit the bash file
+~/.bashrc   --> Bash configuration file 
+cp ~/.bashrc ~/.bashrc.bak  --> Creating backup of configuration file
+
+--------------------------------------------------------------------------
+< Read the contents of a file into the input of a command
+>> --> Append - Adding data to the file without erasing the existing data
+> Redirect -Replace the existing data with new one
+
+
+examples: echo "hello" > test --> Redirect
+		  echo "world" > test --> Redirect
+		  
+		  ls -lt >> test --> Append
+
+xargs <options> <command> --> Used to build and execute commands from standard input
+Runs by taking each line of the output as standard input
+
+-a file --> read input from a file instead of standard input
+--------------------------------------------------------------------------
+READ COMMAND:
+
+read <options> <arguments> --> Reads one line from standard input. 
+The read command takes the user input and splits the string into fields, assigning each new word to an argument. 
+If there are fewer variables than words, read stores the remaining terms into the final variable.
+Specifying the argument names is optional. The command stores a user's input into the $REPLY variable by default.
+
+echo $REPLY --> outputs what read has stored.
+				We can use other variables to store and later retrieve them using echo $<Variable_name>
+
+read var1 var2 --> Store input in multiple variables. 
+				When the user input has more words than there are variables, the extra words are assigned to the last provided variable
+
+Delimiters:
+
+1) read -d "-" --> To use - as delimiter. By default pressing Enter (newline) is the delimitter. That is changed using this.
+					The command terminates when reaching the delimiter, disregarding the number of arguments.
+2) IFS="-_"		 -->	$IFS (Internal Field Separator) stores the word delimiters. The default value by which words split is a space " ". 
+				Set the $IFS variable to a different value to control this behavior
+
+https://phoenixnap.com/kb/bash-read
+
+--------------------------------------------------------------------------
+tee - Redirect and Append
+
+ls -lt | tee <filename> --> To write the output of a command to a file and also display the output on the
+							terminal
+							
+ls -lt | tee -a <filename> --> For append
+--------------------------------------------------------------------------
+
+mkdir <foldername> --> To create a directory
+mkdir -p <foldername>/<foldername>/..  --> To create new directories inside new directories
+mkdir -m a=rwx <foldername> --> Directories created give access to users to read from, write to and execute the contents created
+mkdir -v <foldername> --> -v or -verbose: It displays a message for every directory created
+
+touch <filename> --> To create a file
+
+cd --> To change directory
+cd .. --> To go back to a previous directory
+cd ../.. --> To come out of 2 or more directories
+cd dir1/dir2
+
+pwd --> print working directory
+--------------------------------------------------------------------------
+List files:
+
+ls --> list
+ls -l -->With Owner details, time stamp etc
+ls - a --> Hidden files included
+ls -S --> Sort by Size
+ls *.html --> List only contents with particular file format
+ls -lR --> Lists everyhting including directories, subdirectories etc
+ls -IS > file.txt --> Copies the result of ls to a text file (Redirect)
+
+--------------------------------------------------------------------------
+Hard Disk Mounting
+
+df -Th --> Check the file system type of your partitions using the df command with the -T option
+
+fdisk --> is a command line utility to view and manage hard disks and partitions on Linux systems.
+fdisk <>-->
+fdisk options 
+n – Create partition
+p – print partition table
+d – delete a partition
+q – exit without saving the changes
+w – write the changes and exit.
+
+# mkfs.ext4 <disk name> --> to format the disk and create the ext4 file system
+
+Once formatting has been completed, now mount the partition as shown below.
+
+# mount /dev/xvdc1 /data
+Make an entry in /etc/fstab file for permanent mount at boot time.
+
+/dev/xvdc1	/data	ext4	defaults     0   0
+
+Using UUID: 
+
+UUID to mount devices. This gives some hardware independence, especially when working on a cloud where you can add and move devices as needed.
+
+lsblk -o name,uuid
+Use the uuid corresponding to the device and drive name of your convenience.
+
+edit /etc/fstab
+UUID="d52669e4-b4ed-4623-b69c-b27ea80f740e"     /drive3    ext4    rw,user,exec 0 2
+
+Mount:
+Mounting a filesystem in Linux involves making a particular filesystem accessible at a certain point in the Linux directory tree.
+
+mount -t [type] [device] [dir] --> The command instructs the kernel to attach the file system found on [device] at the [dir] directory. 
+The -t [type] option is optional, and it describes the file system type (EXT3, EXT4, BTRFS, XFS, HPFS, VFAT, etc.).
+
+
+lsblk --> Identify the USB drive using the lsblk command
+sudo mount /path/to/drive /path/to/mountpoint --> Mount command syntax
+ Eg: sudo mount /dev/sdb1 /media/pendrive
+ 
+To unmount
+sudo umount <mount path>
+ Eg: sudo umount /media/pendrive
+
+To mount ISO to check the content of the file
+sudo mount -o loop Downloads/fossapup64-9.5.iso /media/iso  
+--> -o loop argument to create the loop device which tricks the operating system into believing this is a real disk and not an image. 
+
+cat /proc/filesystems --> to check the filesystems supported by linux
+
+
+--------------------------------------------------------------------------
+Word Count:
+
+wc - Word Count: Number of lines, words and characters
+wc -l <filename> -Only Number of lines in file
+wc -w <filename> - Only words
+wc -c <filename> - Only bytes
+wc -m <filename> - Only characters
+
+--------------------------------------------------------------------------
+File Viewing
+
+> redirect Overwrites
+>>append --> Add to the end of the file
+
+head -<number> <filename> --> Print number of lines of the file from top
+tail -<number> <filename> --> Print lines From bottom --default 10 lines
+
+echo $SHELL - to check current shell
+echo --> Command that writes its arguments to standard output (To Print)
+eg: echo Hi my name is Prajwal <Press Enter> will display Hi my name is Prajwal
+echo -e "hello \nworld" --> To print with new line using \n
+
+cat <filename> --> do display contents of file
+cat -n <filename> --> lines will b numbered and displayed
+tac <filename> --> Display file in reverse order
+
+more <filename>  --> To display large files  
+| more --> to use with other commands
+Eg: ls -l | more -5 --> 5 lines at a time display
+more +10 <filename>  --> This will cause the output to start from the 10th line.
+more +/slf4j <filename>  --> This command will output the file contents from the first occurrence of the text “slf4j” in the file.
+q --> to quit
+
+less <filename>  --> The less command is similar to the more command but provides extensive features. 
+One important one is that it allows backward as well as forward movement in the file, even with pipes.
+Especially helpful in searching log files for errors or monitor changes to any file
+
+g --> key will take us to the start of the file
+G --> key will take us to the end of the file.
+
+--------------------------------------------------------------------------
+Regular Expressions:
+
+Linux Regular Expressions are special characters which help search data and matching complex patterns. 
+Regular expressions are shortened as ‘regexp’ or ‘regex’. They are used in many Linux programs like grep, bash, rename, sed, etc.
+
+
+.	replaces any character    (Eg: grep .a will result in any character followed by a) 
+^	matches start of string
+$	matches end of string
+*	matches up zero or more times the preceding character
+\	Represent special characters
+()	Groups regular expressions
+?	Matches up exactly one character
+
+
+
+--------------------------------------------------------------------------
+Global Regular Expression Print
+
+grep - Used to search for a string inside a file
+
+grep '<pattern>' <filename> --> Displays all the line with the pattern in them
+grep -i "<pattern>" <filename> --> Case insensitive search
+
+grep -e "<pattern_1>" -e "<pattern_2>" <filename> --> To search for multiple patterns
+
+grep -w "<pattern>" <filename> --> To check for a whole word
+
+grep  -l "<pattern>" * --> To check for the pattern in all the files and prints the filenames
+grep  -lR "<pattern>" * --> To check for the pattern in all the files recursively and gives the filenames
+
+grep "^pattern" <filename> --> To print all the lines that start with the pattern [use -i case insensitive]
+grep "pattern$" <filename> --> To print all the lines that end with the pattern
+
+grep -c "pattern" <filename> --> To count the number of lines the pattern is present
+grep -o 'pattern' <filename> --> To print the number of occurance of a particular pattern
+grep -o 'pattern' <filename> | wc -l --> To count the number of occurances of the particular word 
+grep -v "pattern" <filename> --> To print all the lines without the pattern
+
+You can use '' or "" for pattern search
+
+--------------------------------------------------------------------------
+sed - Stream editor used to find and replace
+
+s stands for substitute
+The g flag at the end of the sed command means “globally”, i.e. everywhere on the line, not just the first match.
+Removing this, you will notice that $ echo ‘123 testing’ | sed ‘s/[^0-9]*//’ 123 testing. matches the empty space in front of 1 , and replaces nothing.
+
+sed 's/<old_word>/<new_word>/g' <filename> --> To replace old_word with new_word and displays the output on
+												the terminal (Won't make changes to the file)
+
+sed -i 's/<old_word>/<new_word>/gI' <filename> --> It will also make changes to the file. I stands for character insensitive
+
+sed -i '1s/<old_word>/<new_word>/g' <filename> --> To make changes to the first line only
+sed -i '2,5s/<old_word>/<new_word>/g' <filename> --> To make changes from 2nd to 5th line only
+sed -i '2,$s/<old_word>/<new_word>/g' <filename> --> To make changes from 2nd line to the end of the file
+
+sed '2d' <filename> --> Delete the second line [NOTE the single quotes]
+sed '2,5d' <filename> --> Delete the from second to fifth line [NOTE the single quotes]
+sed '2,$d' <filename> --> Delete from 2 line to end of the file [NOTE the single quotes] 
+include -i for deleting from actual file
+
+sed -n '2p' <filename> --> Prints the second line
+sed -n '1p;3p' <filename> --> Prints 1st and third line only
+
+--------------------------------------------------------------------------
+regular expression
+
+Sure, here are the points with examples:
+
+1. **Regular Expressions (Regex)**: These are used to find or match patterns in strings. For example, the regex `a.b` matches any string containing an 'a', any character, and then a 'b'.
+
+2. **Metacharacters**: These have a specific meaning in regular expressions. For example, the dot `.` is a metacharacter that matches any character except a newline.
+
+3. **Quantifiers**: These specify how many instances of a character, group, or character class must be present for a match. For example, `a*` matches zero or more 'a' characters.
+
+4. **Anchors**: These specify a position in the string where a match must occur. For example, `^a` matches any string that starts with 'a'.
+
+5. **Special Sequences**: These are sequences that start with a backslash (`\\`) and have a special meaning. For example, `\\d` matches any digit.
+
+6. **Flags**: These are optional parameters to a regex that modify its behavior. For example, adding the `i` flag to a regex makes the match case insensitive.
+
+Here are some examples:
+
+- `abc`: Matches the exact string 'abc'.
+- `a.b`: Matches 'a', any character, then 'b'.
+- `a*`: Matches zero or more 'a' characters.
+- `^abc`: Matches any string that starts with 'abc'.
+- `abc$`: Matches any string that ends with 'abc'.
+- `\\d`: Matches any digit.
+- `abc/i`: Matches 'abc', 'Abc', 'aBc', 'abC', 'ABc', 'AbC', 'aBC', and 'ABC'.
+
+
+--------------------------------------------------------------------------
+
+Find Command - To find files and directories in Linux
+
+find -name <filename> --> To search and display all the files with the name <filename>
+find -iname <filename> --> Case insensitive search
+
+find -name <filename> -type f --> To only find the files
+find -name <filename> -type d --> To only find the directories 
+
+find -mtime -10 --> To find all the files and directories that were created in the last 10 days
+find -mtime +30 --> To find all the files and directories that were created more than 30 days ago
+
+find -type f -empty --> To display all the empty files
+find -type f -perm 664 --> To display all the files with permission 664
+
+find -maxdepth 1 -name <filename> --> To only search for the current directory
+
+find ./ -user <user> --> To find the files that belongs to the user
+find ./ ! -user <user> --> To find the files that does not belongs to the user
+find ./ ! -user ec2-user -exec rm -f {} \; --> To find the files that does not belong to the user and remove them
+
+Note: ./ for current folder as '.' means current folder. Otherwise use / or /home/ etc
+You can also search by group
+! == Not operator 
+
+find -type f -name "l*" --> To find all the files starting with l
+find -type d -name "l*" --> To find all the directories starting with l
+Similarly *.txt for all files with txt extension
+Similarly abc.* for file abc with all extension
+
+Assignment:
+1. Find all the non empty files [find ./ ! -empty -type f]
+2. Find all the files with size more than 1 mb [find ./ -size +1M]
+3. Find all the files with size less than 1 mb [find ./ -size -1M] [M for mb, k for kb, G for gb]
+4. Find and delete all the empty files [find ./ -empty -exec rm -f {} \;][ find ./ -type f -empty | find rm -rf]
+
+--------------------------------------------------------------------------
+Systemctl
+
+systemctl status <service> --> To check the status of the service running or not
+sudo systemctl start [service_name] --> Start a service
+sudo systemctl stop <service name> --> To stop a service
+sudo systemctl enable <service> --> Start the service at next boot not immediately
+sudo systemctl enable <service> --now --> To start the service. This command configures a service to start when the system boots. Also immediately
+sudo systemctl disable [service_name] --> Disable service at boot
+sudo systemctl disable <service name> --now --> To disable now and even after boot
+systemctl restart <service> --> to perform STOP and START action
+sudo systemctl reload [service_name] --> This command forces the service to reload its configuration files
+
+
+systemctl is-active --quiet <process name> --> To check the status of the process
+--quiet flag to produce no output
+$? --> To check the above. 
+0 active else not active
+--------------------------------------------------------------------------
+mv:
+
+curl --version
+curl --help
+curl -O <url> --> To download the image to current folder
+curl -o <filename> <url> --> To work like wget, to save file with a different name
+xargs -n 1 curl -O < files.txt  --> To download mulitple images at a time. Create a new file called files.txt ,paste the URLs one per line and then run
+curl <url> --output <filename.png> --> try this if permission denied for saving
+--------------------------------------------------------------------------
+
+nginx
+
+configuration file --> /etc/nginx/nginx.conf
+default index file location --> /usr/share/nginx/html/index.html
+
+
+
+--------------------------------------------------------------------------
+
+
+
+Miscellaneous
+
+history - To check history
+CTRL -C - to get back to the terminal
+sudo sestatus --> To check SElinux status
+sudo systemctl <> --> To find the state of tbe tool (example nginx)
+
+who --> To check all the users that have logged into the server
+whoami --> To check the current user
+
+hostname --> to check the ip address of the system (private)
+curl ifconfig.me --> To display the public ip address
+
+uname --> To check the name of the kernel
+uname -a --> To check all the details of the system
+
+**
+cat /etc/os-release --> To check os name and version
+
+./a.out --> to run the file
+
+To remove leading zeros 
+iptables -t nat -I POSTROUTING -s "10.$<variable_name>.$((10#$<variable_name>)).0/24" -j MASQUERADE
+
+tr [options] SET1 [SET2] --> translates or deletes characters from standard input (stdin) and writes the result to standard output (stdout).
+							without option replaces set 1 characters with set 2 
+	-d	Deletes characters from the SET1 input.
+	
+Export: A local shell variable is a variable known only to the shell that created it. If you start a new shell, the old shell's variables are unknown to it.
+If you want the new shells that you open to use the variables from an old shell, export the variables to make them global.
+You can use the export command to make local variables global. To make your local shell variables global automatically, export them in your .profile file.
+
+export -->	To list all your exported variables
+export <variable> --> To make the local shell variable global	
+--------------------------------------------------------------------------
+Permissions in Linux
+r- Read
+w- write
+x- Execute
+
+rw-rw-r--
+
+rw- --> Owner
+rw- --> Group
+r-- --> Others
+
+r - 2^2 --> 4
+w - 2^1 --> 2
+x - 2^0 --> 1
+
+Total 7
+
+chmod 777 <filename> --> To give rwx permission for Owner Group Others
+chmod 666 <filename> --> To give read and write permission 
+
+By default 664 permission 
+
+Default Permissions in Linux (UMASK)
+
+666 -file
+777 - directories  
+
+UMASK 002
+
+	666
+  -	002
+	= 664
+
+Change umask value to change default permission
+
+umask <value> Eg: umask 222 - Temporary change of umask value
+
+sudo cat /etc/profile  - Permenantly change umask value
+------------------------------------------------------------------------------------------
+Super User Does
+
+su --> switch user
+
+sudo gives permissions for users to execute commands as a root user
+The sudo logs are kept in "/var/log/secure" file in RPM-based systems such as CentOS and Fedora.
+
+sudo su --> to goto root user
+sudo -i --> to goto root user
+
+To give an user sudo permission we have to add him in /etc/sudoers file
+<username>        ALL=(ALL)       NOPASSWD: ALL
+%<groupname> --> For groups
+
+Add User
+
+sudo useradd <username> --> To add a new user
+sudo useradd -m --> -m To create a new home directory to the user
+sudo passwd <username> --> To set a password for the user
+sudo userdel <username> --> To delete a user
+
+To check all the users --> sudo cat /etc/passwd (or) getent passwd
+
+usermod --> To change the user name
+
+------------------------------------------------------------------------------------------
+Add Groups
+
+sudo groupadd <group_name> --> To create a groupadd
+sudo groupdel <group_name> --> To delete a group_name
+
+usermod -aG <group_name> <user_name> --> To add a user to a group
+
+To check all the groups/ users in a group--> sudo cat /etc/group (or) getent group
+*By default every user added gets a group added with his username 
+
+Eg: cdrom:x:24:ubuntu, 
+‘cdrom’ is the group name, ‘x’ indicates that password is not used, ‘24’ is the group ID, and ‘ubuntu’ is the user that belongs to this group
+
+------------------------------------------------------------------------------------------
+
+Change Ownership of Files and Directories
+getent passwd  --> All the users
+chown <username> <filename> --> To change the owner
+chgrp <group name> <filename> --> To change the group that has access to file
+chown <username>:<group name> <filename> --> To change the owner and the group
+
+Same command for folder as well instead of filename
+chgrp -R <groupname> <foldername> --> To change the group of the folder recursively
+
+chmod 777 <filename> --> To give rwx permission for Owner Group Others
+chmod 666 <filename> --> To give read and write permission 
+
+------------------------------------------------------------------------------------------
+Pipe [|] --> To pass the output of one command to the next command
+
+Example:
+
+head -4 <filename> | tail -1 --> To display only the 4th line
+
+------------------------------------------------------------------------------------------
+cut - Used to cut display a file column wise
+
+eg. file content
+"
+name id age
+ashwin 1 29
+prajwal 2 28
+rakshith 3 30
+
+"
+
+cut -d " " -f1 <filename> --> To display only the 1st column with single space as a delimiter
+delimiter can be space, - or dot
+
+cut -d " " -f1,3 <filename> --> To display the 1st and 3rd column
+cut -d " " -f2-4 <filename> --> To display from 1st to 4th column
+cut -c "$n"  --> to cut chsracter
+Eg: cut -c "4,6" test --> This is test file Output: si
+Option | Description | —— | —— |-b LIST, --bytes=LIST | Print the bytes listed in the LIST parameter |-c LIST, --characters=LIST |
+				Print characters in positions specified in LIST parameter |-f LIST, --fields=LIST | Print fields or columns |
+------------------------------------------------------------------------------------------
+awk - Used to cut a file column, row wise etc
+
+awk '{print}' <filename> --> To display the contents of the file
+awk '1' <filename> --> For above
+
+awk -F " " '{print$2}' <filename> --> To display only the 2nd column F- Field
+awk -F " " '{print$2,$3}' <filename> --> To display 2nd and 3rd column
+awk -F " " '{print$NF}' <filename> --> To display only the last column
+awk -F " " '{print$(NF-1)}' <filename> --> To display 2nd last column
+
+awk 'NR==3 {print}' <filename> --> To display the 3rd line
+
+NR = Next record. If NR is 1 (i.e., the first line of the file), $(NR-1) will try to print the 0th field
+NF = next Field
+
+------------------------------------------------------------------------------------------
+
+Remove the files and Directories
+
+rm <filename> --> To delete a file
+rm * --> Remove all files in that folder
+rm -rf <dir_name> --> To delete a directory
+rmdir --> Same as above
+
+------------------------------------------------------------------------------------------
+
+Copy
+
+cp <filename_1> <filename_2>
+cp <filename> <dir>/
+cp -R <dir_1> <dir_2>  --> Copy recursively i.e Copying directories, sub directories and everything
+cp -p --> for preserving the file permission of the original file 
+cp --help
+cp -a --> For recursively and with permissions
+
+Also check rsync
+
+------------------------------------------------------------------------------------------
+SCP - To copy files over ssh
+
+The default location of private key would be ~username/.ssh/id_rsa (here named id_rsa, which is default for rsa keys).
+
+scp -i <aws_pemkey> <filename> <username>@<ipaddress>:<destination_path> (-i --> identity file not for copying only to identify private key)
+
+scp <filename> <username>@<ipaddress>:<destination_path>
+
+rsync --> We can also use this command to copy files but with rsync the major difference is that, if there
+were any failures rsync will resume where the copy has failed.
+
+rsync -avzh <file_name> <user>@<ipaddress>:<destination_path> --> For files
+rsync -avzh <directory> <user>@<ipaddress>:<destination_path> --> For directory
+-R for recursively
+
+----------------------------------------------------------------------------------------------------
+winscp -> To transfer files
+----------------------------------------------------------------------------------------------------
+Move 
+
+mv <filename_1> <filename_2>
+mv <filename> <dir>/
+
+------------------------------------------------------------------------------------------
+File Size and Disk Space:
+
+du -sh <filename>  --> To check the size of the file
+du -sb <filename> --> Tocheck the file size in bytes
+du -sh * --> To check the size of all file and directories in the pwd
+
+df -h --> To check the disk size
+free -h --> To check the system memory (RAM)
+
+------------------------------------------------------------------------------------------
+
+Link - To create a shortcut of a file
+
+ln -s <original_file_path> <softlink_name> --> To create a soft link
+
+ln <original_file_path> <hardlink_name> --> To create a hard link
+
+ln -nsf <original_file_path> <softlink_name> --> To update the softlink address in case needed
+
+A softlink will point to the path of the file so once the original file gets deleted/rmoved the soft link
+will not work
+
+A hardlink will point to inode of  a file, so even if the original file gets deleted the hardlink
+will still work
+
+inode --> is an unique identification number of a file, which points to the file's memory block
+
+ls -i <filename> --> To check the inode of a file
+
+------------------------------------------------------------------------------------------
+
+SSH - Secure Shell or Secure Socket Shell
+
+SSH is a network protocol that gives users/system administrators a secure way to access a server overn 
+an unsecured network
+
+Default Ports
+
+SSH - 22
+Apache Tomcat - 8080
+Jenkins - 8080
+HTTP - 80
+HTTPS - 443
+
+Port - A port is a virtual point where network connections start and end. Each port is associated with a specific
+process or service
+
+ssh <key> <username>@<ipaddress> --> To SSH into a server
+
+ssh -i <aws_pemkey> <username>@<ipaddress> --> To SSH into a server using pem key. -p <port number> if default port is not 22
+
+SSH Passwordless Connection
+
+ssh-keygen -t rsa - To generate a rsa key with which we can setup passwordless connection
+-t invoked to specify which type of key is supposed to be generated. If nothing specified, RSA key for ssh protocol version 2 is generated
+
+id_rsa.pub --> Public Key
+id_rsa --> Private Key
+
+Note: pem file should be 400 permission otherwise not accepted
+also .ssh folder 700 and authorized_file 600
+
+Copy that rsa key (id_rsa.pub) to authorized_keys file in .ssh directory to the server that you want to connect
+without password. Appending the authorised file does the job
+
+ssh-copyid username@targetmachineip --> To copy the public key to the target server.
+
+If denied by the public key, you need to enable password authentication at the target machines
+sudo /etc/ssh/sshd_config --> Password authentication --> no to yes
+sudo systemctl restart ssh (sshd for red hat machines) --> to restart the ssh service
+
+Now you can copy the public (.pub) key to the target machine
+
+------------------------------------------------------------------------------------------
+Networking
+
+nmtui --> To change networking settings "Network Manager"
+ifconfig  --> To know your ipaddress
+ip addr --> new machines ip address
+hostname --> to know hostname  
+/etc/hostname --> same as above
+/etc/resolv.conf --> DNS
+
+------------------------------------------------------------------------------------------
+Process (PS)
+
+ps -ef --> To show all the running process
+
+ps -u <username> --> To check all the process started by a particular user
+
+ps -c <processnsme>
+
+kill/killall (Forcefully kill the process)
+
+kill -9 <PID> --> To kill a process by PID
+killall -9 <Process_name> --> To kill a process by its name
+killall -u <username> --> To kill all the process started by an user
+kill -l --> List the signal options eg -9 to kill
+
+sudo service <process_name> stop --> Gracefully kill a process
+
+top --> To check akk the process currently running, memory usage, cpu usage etc
+
+Load Average
+In a Linux system, the load is a measure of CPU utilization at any given moment.
+It refers to the number of processes which are either currently being executed by the CPU or are waiting for execution.
+An idle system has a load of 0. With each process that is being executed or is on the waitlist, the load increases by 1.
+
+
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+ping <hostname> --> TO check and ping another server
+ping 0 --> To ping current server
+----------------------------------------------------------------------------------------------------
+uniq and sort
+
+uniq <filename> --> TO display only the unique values in a file
+
+Drawback of uniq command is that it can only eliminate the duplicate values if they are adjacent to each other
+
+sort <filename> --> To sort the values in a file
+sort -r <filename> --> To sort in reverse order
+
+sort <filename> | uniq --> To sort and eliminate all the duplicate values
+----------------------------------------------------------------------------------------------------
+netstat - To check the information about ports in linux
+
+netstat -a --> To check all the ports
+netstat -l --> To check all the ports that are in use
+
+sudo netstat -tulnp --> To check which process is using which port
+----------------------------------------------------------------------------------------------------
+& - To run a command/script in background
+
+syntax: <command/script> &
+
+fg - To bring the process/command/script to the foreground
+
+syntax: fg <PID/command/script>
+----------------------------------------------------------------------------------------------------
+Telnet:
+
+Default port Telnet: 23
+
+Telnet is a networking protocol which is used to create a remote connection. This protocol has security
+problmes as data is transferred unencrypted.
+
+Syntax: telnet <hostname> <portnumber>
+----------------------------------------------------------------------------------------------------
+CronJob
+
+A Cronjob is a linux command used for scheduling tasks to be executed periodically
+
+crontab --> It is a file which contains all the cron entries
+
+crontab -e --> To edit the crontab file
+crontab -l --> To list the existing crontabs
+
+*		*		*		*		*		command
+min		hour	date	month	day
+
+00 - Sunday
+01 - Monday
+02 - Tuesday
+03 - Wednesday
+04 - Thursday
+05 - Friday
+06 - Saturday
+
+19th of Febraury on Wednesday at 3 PM --> 00 15 19 02 03
+9 AM on every Monday --> 00 09 * * 01
+Every Minute --> * * * * * sh <script_path> d 
+
+Every hour at 00 minute --> 00 * * * *
+Every 15 minutes --> */15 * * * *
+----------------------------------------------------------------------------------------------------
+Mail Command
+
+sendmail, postfix, mailx
+
+sudo yum install mailx
+
+echo "<content>" | mail -s "<subject>" -c "<cc>" -b "<bcc>" -a "<attachement-file-path>" <email-id>
+
+mail -s "subject" <email-id> < <file-name>
+----------------------------------------------------------------------------------------------------
+
+Vi Editor
+
+By default vi editor opens in command mode
+
+To create file
+
+vi <file_name> 
+
+esc - To enter the command mode
+
+esc + i - To enter Insert mode in VI
+
+esc + :w - To save the file
+esc + :wq - To save the file and quit
+esc + :q! - To quit without saving
+esc + :wq! - To save the file and quit forcefully
+
+w -> Write
+q -> Quit
+! -> Forecefully
+
+esc + :set nu --> To set the numbers for the file
+esc + :set nonu --> To remove the numbers
+
+vi -r <filename> --> To recover a file
+
+Replace a string
+
+esc + :%s/<old_string>/<new_string>/g
+esc + :%s/<old_string>/<new_string>/ig
+
+% --> All lines
+s --> substitute
+g --> globally (all occurences of the pattern)
+ig --> Case insensitive replace
+
+example: esc + :%s/linux/windows/g  Linux word replaced to windows
+
+esc + :1s/<old_string>/<new_string>/g  To subsitute only in 1st line
+esc + :1,5s/<old_string>/<new_string>/g --> To substitute string from 1st to 5th line
+esc + :2,$s/<old_string>/<new_string>/g --> To substitute string from 2nd to end of the line
+
+esc :/<pattern> --> To move to first occurence and then keep pressing "n" to find the next occurence
+
+esc + dd --> To delete a line in the file
+
+------------------------------------------------------------------------------------------
+Shell Script
+
+#!    shebang
+echo $SHELL  --> Which shell we are currently using
+E.g., #!/bin/csh refers to the C-shell, /bin/tcsh the t-shell, /bin/bash the bash shell, etc.
+#!/usr/bin/python -- If you program in python
+
+
+variable_name=value   --> We can define a variable by using the syntax
+$variable_name   --> To get the value of the variable name
+
+var=$((expression)) --> Numerical expressions can be calculated and stored in a variable
+Eg: var=$((3+9))
+echo $var
+
+echo "scale=2;22/7" | bc   --> where Scale defines the nmmber of decimal places outpuut requires and bc - bash calculator
+
+OPERATION	                                          SYNTAX	                                             EXPLANATION
+Equality	                                        num1 -eq num2	                                      is num1 equal to num2
+Greater than equal to	                            num1 -ge num2	                                      is num1 greater than equal to num2
+Greater than	                                    num1 -gt num2	                                      is num1 greater than num2
+Less than equal to	                                num1 -le num2	                                      is num1 less than equal to num2
+Less than	                                        num1 -lt num2	                                      is num1 less than num2
+Not Equal to	                                    num1 -ne num2	                                      is num1 not equal to num2
+
+
+read variable_name --> To get the user input
+read -p "Enter your age" variable_name   --> -p to give custom message to the user
+
+Conditional Statements:
+
+if [ conditions ]
+    then
+         commands
+fi
+
+Eg: 
+
+read x
+read y
+
+if [ $x -gt $y ]
+then
+echo X is greater than Y
+elif [ $x -lt $y ]
+then
+echo X is less than Y
+elif [ $x -eq $y ]
+then
+echo X is equal to Y
+fi
+
+
+
+ 

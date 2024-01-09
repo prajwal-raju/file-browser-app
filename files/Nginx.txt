@@ -1,0 +1,182 @@
+Nginx:
+
+configuration file locations --> /usr/local/nginx/conf, /etc/nginx, or /usr/local/etc/nginx
+default index file location --> /usr/share/nginx/html/index.html
+sudo nginx -t --> To test nginx config
+
+nginx -s signal --> where signal --> stop -> fast shutdown quit -> graceful shutdown reload -> reloading the configuration reopen -> reopening the log files
+
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+    worker_connections 768;
+    # multi_accept on;
+}
+
+http {
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    types_hash_max_size 2048;
+    server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    # Additional SSL settings
+    ssl_certificate /etc/nginx/ssl/example.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/example.com.key;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    upstream backend {
+        server backend1.example.com;
+        server backend2.example.com;
+        server backend3.example.com;
+    }
+
+    server {
+        listen 80;
+        listen [::]:80; # IPv6 support
+        server_name example.com www.example.com;
+
+        # Redirect HTTP to HTTPS
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2; # IPv6 support
+        server_name example.com www.example.com;
+
+        # SSL settings
+        ssl_certificate /etc/nginx/ssl/example.com.crt;
+        ssl_certificate_key /etc/nginx/ssl/example.com.key;
+        ssl_session_timeout 1d;
+        ssl_session_cache shared:SSL:50m;
+        ssl_session_tickets off;
+
+        # Diffie-Hellman parameter for DHE ciphersuites
+        ssl_dhparam /etc/nginx/ssl/dhparam.pem;
+
+        # Enable HSTS (HTTP Strict Transport Security)
+        add_header Strict-Transport-Security "max-age=31536000" always;
+
+        # Enable OCSP stapling
+        ssl_stapling on;
+        ssl_stapling_verify on;
+        resolver 8.8.8.8 8.8.4.4 valid=300s;
+        resolver_timeout 5s;
+
+        # ...
+        # Other SSL settings as needed
+
+        location / {
+            root /var/www/example.com/html; # Adapted path
+            index index.html index.htm;
+        }
+
+        location /api/ {
+            proxy_pass http://backend;
+            proxy_set_header Host $host;
+        }
+    }
+}
+
+
+Explanation of above:
+
+user www-data;: Specifies the user that will run the Nginx worker processes. www-data is a common user used by web servers.
+
+worker_processes auto;: Configures the number of worker processes. auto means it will be determined automatically based on the number of processor cores available.
+
+pid /run/nginx.pid;: Specifies the file where the process ID of the main process will be stored.
+
+include /etc/nginx/modules-enabled/*.conf;: Includes additional configuration files from the specified directory.
+
+events: Configures parameters that affect how Nginx handles connections.
+
+worker_connections 768;: Defines the maximum number of simultaneous connections that each worker process can handle.
+
+sendfile on;: Enables the use of the sendfile system call for file transfers.
+
+tcp_nopush on;: Enables or disables the use of the TCP_NOPUSH socket option.
+
+types_hash_max_size 2048;: Sets the maximum size of the types hash tables.
+
+server_tokens off;: Disables emitting the Nginx version number in error messages and in the "Server" response header field.
+
+include /etc/nginx/mime.types;: Includes the MIME types file.
+
+default_type application/octet-stream;: Sets the default MIME type.
+
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;: Specifies the SSL protocols to use.
+
+ssl_prefer_server_ciphers on;: Enables the server to prefer ciphers specified by the server.
+
+access_log /var/log/nginx/access.log;: Sets the path and format of the access log.
+
+error_log /var/log/nginx/error.log;: Sets the path and log level of the error log.
+
+gzip on;: Enables or disables gzip compression.
+
+upstream backend {...}: Defines a group of servers that can be referenced by the following proxy_pass directives. In this example, it's specifying a group of backend servers.
+
+server {...}: Defines a virtual server block.
+
+listen 80;: Configures the server to listen on port 80.
+
+server_name example.com;: Specifies the domain name associated with this server block.
+
+location / {...}: Defines how to respond to requests for the root location. In this case, it serves static files from /var/www/example.com.
+
+location /api/ {...}: Configures how to proxy requests that start with /api/ to the upstream backend servers defined earlier.
+
+proxy_pass http://backend;: Passes requests to the specified group of servers.
+
+proxy_set_header Host $host;: Sets the Host header of the proxied request.
+
+ssl_certificate /etc/nginx/ssl/example.com.crt; and ssl_certificate_key /etc/nginx/ssl/example.com.key;: Paths to your SSL certificate and private key.
+
+listen 443 ssl http2; and listen [::]:443 ssl http2;: Configures Nginx to listen on port 443 for SSL connections.
+
+ssl_session_timeout 1d;, ssl_session_cache shared:SSL:50m;, ssl_session_tickets off;: SSL session settings.
+
+ssl_dhparam /etc/nginx/ssl/dhparam.pem;: Path to the Diffie-Hellman parameter file. Generate this file using openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048.
+
+add_header Strict-Transport-Security "max-age=31536000" always;: Enables HTTP Strict Transport Security (HSTS).
+
+ssl_stapling on;, ssl_stapling_verify on;, resolver 8.8.8.8 8.8.4.4 valid=300s;, resolver_timeout 5s;: SSL stapling settings.
+
+root /var/www/example.com/html;: Adapted path to the root directory for static files.
